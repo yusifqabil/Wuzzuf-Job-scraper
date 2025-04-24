@@ -6,8 +6,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import requests 
-# Initiating a web driver 
-driver = webdriver.Chrome()
+from selenium.webdriver import ChromeOptions
+
+# Initiating a web driver and going headless 
+options = ChromeOptions()
+options.add_argument("--headless=new")
+driver = webdriver.Chrome(options=options)
 driver.implicitly_wait(60)
 driver.get("https://wuzzuf.net/jobs/egypt")
 history = [driver.current_url]
