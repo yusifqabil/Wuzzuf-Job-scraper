@@ -8,9 +8,6 @@ from bs4 import BeautifulSoup
 import requests 
 from selenium.webdriver import ChromeOptions
 from datetime import datetime
-# Initiating a web driver 
-# options = ChromeOptions()
-# options.add_argument("--headless=new")
 driver = webdriver.Chrome()
 driver.implicitly_wait(10)
 driver.get("https://wuzzuf.net/jobs/egypt")
@@ -28,7 +25,7 @@ textField.send_keys(input("Enter the job you want to search for : \n "))
 button.click()
 # Creating a list to hold the results
 result = []
-# A While loop to loop through the pages until the function returns true
+# A While loop to loop through the pages until the function returns True
 while True : 
     check = urlCheck(driver.current_url,history)
     if check == True :
@@ -52,15 +49,20 @@ while True :
 
           
     try :
+          #introducing sleep to avoid overloading the server
          time.sleep(3)
+          #adding an explicit wait for the button to be clickable , 10s were ideal for my connection but you can adjust it to 
+          #be lower or higher
          element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".css-1q4vxyr button")))
          nextButton = driver.find_elements(By.CSS_SELECTOR,".css-1q4vxyr button")[-1]
          history.append(driver.current_url)
          nextButton.click()
     except : 
+          #in case the button was not found , break the loop and return a message that the button wasn't found.
          print("button not found")
          break 
     else:
+          #if all goes well and the button was found and clicked , the loop continues to the other page.
          continue
 # Ending the session
 driver.quit()
